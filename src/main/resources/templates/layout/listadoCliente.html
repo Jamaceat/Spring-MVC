@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http:/www.thymeleaf.org/extras/spring-security"
+	lang="es"
+>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<section th:fragment="listadoClientes" id="clientes">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-9">
+						<div class="card">
+							<div class="card-header">
+								<h4>[[#{persona.titulo-list}]]</h4>
+							</div>
+							<div th:if="${personas != null and !personas.empty}">
+								<table border="1" class="table table-stryped">
+									<thead class="thead-dark">
+										<tr>
+											<th>#</th>
+											<th>[[#{persona.crear.nombre}]]</th>
+											<th>[[#{persona.crear.apellido}]]</th>
+											<th>[[#{persona.crear.email}]]</th>
+											<th>[[#{persona.crear.telefono}]]</th>
+											<th>[[#{persona.crear.saldo}]]</th>
+											<th sec:authorize="hasRole('ROLE_ADMIN')">
+												[[#{persona.crear.editar}]]
+											</th>
+											<th sec:authorize="hasRole('ROLE_ADMIN')">
+												[[#{persona.crear.eliminar}]]
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="persona,contador:${personas}">
+											<td><span th:text="${contador.index}"></span></td>
+											<td><span th:text="${persona.nombre}"></span></td>
+											<td><span th:text="${persona.apellido}"></span></td>
+											<td><span th:text="${persona.email}"></span></td>
+											<td><span th:text="${persona.telefono}"></span></td>
+											<td>
+												<span th:text="${persona.saldoFormateado}"></span>
+											</td>
+											<td sec:authorize="hasRole('ROLE_ADMIN')">
+												<a
+													th:href="@{/editar/}+${persona.id_persona}"
+													class="btn btn-secondary"
+												>
+													<i class="fas fa-angle-double-right"></i>
+													[[#{persona.crear.editar}]]
+												</a>
+											</td>
+											<td sec:authorize="hasRole('ROLE_ADMIN')">
+												<a
+													th:href="@{/eliminar(id_persona=${persona.id_persona})}"
+													class="btn btn-dark"
+												>
+													<i class="fas fa-angle-double-right"></i
+													>[[#{persona.crear.eliminar}]]
+												</a>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- Vacio -->
+							<div
+								class="text-center p-2"
+								th:if="${personas==null or personas.empty}"
+							>
+								<span th:text="#{persona.titulo-empty-list}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="card text-center bg-danger text-white mb-3">
+							<div class="card-body">
+								<h3 th:text="#{persona.saldoTotal}"></h3>
+								<h4 class="display-4" th:text="${saldoTotal}"></h4>
+							</div>
+						</div>
+						<div class="card text-center bg-success text-white mb-3">
+							<div class="card-body">
+								<h3 th:text="#{persona.PeopleSize}">Total Clientes</h3>
+								<h4 class="display-4">
+									<i class="fas fa-users"></i> [[${contadorPersonas}]]
+								</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</body>
+</html>

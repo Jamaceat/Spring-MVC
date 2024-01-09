@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http:/www.thymeleaf.org/extras/spring-security"
+	lang="es"
+>
+	<head th:replace="layout/plantilla :: head">
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Inicio</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</head>
+	<body>
+		<header th:replace="layout/Plantilla :: header"></header>
+
+		<section th:replace="layout/botonesAgregar :: botonesAgregar"></section>
+		<section th:replace="layout/agregarCliente :: agregarCliente"></section>
+		<section th:replace="layout/listadoCliente :: listadoClientes"></section>
+
+		<footer th:replace="layout/plantilla2 :: footer"></footer>
+
+		<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/agregar}">
+			[[#{persona.crear}]]
+		</a>
+
+		<!-- <div th:if="${usuario!=null}">
+			<p th:text="${usuario.username}"></p>
+			<ul th:each="autority:${authorities}">
+				<li>[[${autority}]]</li>
+			</ul>
+		</div> -->
+		<!-- <div th:if="${personas==null or personas.empty}">[[#{persona.empty}]]</div>
+		<p th:replace="layout/plantilla :: lore"></p> -->
+	</body>
+</html>
